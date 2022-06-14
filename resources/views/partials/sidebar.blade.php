@@ -2,7 +2,7 @@
 $menu = collect([
 # --- menu 1 --- #
 (object) [
-'title' => 'Data PKB Hitam',
+'title' => 'Data PKB',
 'icon' => 'fas fa-fw fa-car',
 'role' => null,
 'route' => 'data_pkb_hitam.index',
@@ -154,9 +154,9 @@ $menu = collect([
 @endphp
 
 <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="sidebar">
-    <a class="sidebar-brand d-flex align-items-center justify-content-center mb-3"
+    <a class="sidebar-brand d-flex align-items-center justify-content-center mb-3 bg-white text-primary"
         href="{{ route('dashboard.index') }}">
-        <div class="sidebar-brand-icon bg-white">
+        <div class="sidebar-brand-icon">
             <img class="d-block" src={{ asset('assets/img/logo.png') }} height="48" />
         </div>
         <span>{{ config('app.name') }}</span>

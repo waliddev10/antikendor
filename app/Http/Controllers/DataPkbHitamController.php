@@ -21,7 +21,17 @@ class DataPkbHitamController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
-            return DataTables::of(DataPkbHitam::all())
+
+            $filtered = DataPkbHitam::all()
+                ->filter(function ($item) use ($request) {
+                    if ($request->has('status_kendaraan') && $request->status_kendaraan != 'Semua') {
+                        return $item->status_kendaraan == $request->status_kendaraan;
+                    } else {
+                        return true;
+                    }
+                });
+
+            return DataTables::of($filtered)
                 ->addColumn('action', function ($item) {
                     return '<div class="btn-group">
                 <button class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('data_pkb_hitam.edit', $item->id) . '"><i class="fas fa-edit fa-fw"></i></button>
@@ -33,7 +43,10 @@ class DataPkbHitamController extends Controller
                 ->make(true);
         }
 
-        return view('pages.data_pkb_hitam.index');
+        return view(
+            'pages.data_pkb_hitam.index',
+            ['status_kendaraan' => collect(DataPkbHitam::select('status_kendaraan')->get())->unique()->values()->all()]
+        );
     }
 
     /**

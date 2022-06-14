@@ -1,28 +1,40 @@
 @extends('layouts.app')
 
-@section('title', 'Data PKB Hitam')
+@section('title', 'Data PKB')
 
 @section('title-widget')
 <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
     <i class="fas fa-file-pdf fa-sm text-white-50 mr-2"></i>
-    Data PKB Hitam
+    Data PKB
 </a>
 @endsection
 
 @section('content')
 <div class="card shadow">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Data PKB Hitam</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Data PKB</h6>
     </div>
     <div class="card-body">
-        <a class="btn btn-outline-primary btn-sm" title="Tambah Data" data-toggle="modal" data-target="#modalContainer"
-            data-title="Tambah Data" href="{{ route('data_pkb_hitam.create') }}"><i class="fa fa-plus fa-fw"></i>
+        <button class="btn btn-outline-primary btn-sm" title="Tambah Data" data-toggle="modal"
+            data-target="#modalContainer" data-title="Tambah Data" href="{{ route('data_pkb_hitam.create') }}"><i
+                class="fa fa-plus fa-fw"></i>
             Tambah
-            Data</a>
-        <a class="btn btn-primary btn-sm" title="Import Data" data-toggle="modal" data-target="#modalContainer"
+            Data</button>
+        <button class="btn btn-primary btn-sm" title="Import Data" data-toggle="modal" data-target="#modalContainer"
             data-title="Import Data" href="{{ route('data_pkb_hitam.upload') }}"><i class="fa fa-upload fa-fw"></i>
             Import
-            Data</a>
+            Data</button>
+        <form id="search-form" class="form-inline mt-5">
+            <div class="form-group mr-2">
+                <select name="status_kendaraan" class="form-control">
+                    <option selected="" value="Semua">-- Semua Status --</option>
+                    @foreach ($status_kendaraan as $status)
+                    <option value="{{ $status->status_kendaraan }}">{{ $status->status_kendaraan }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-filter fa-fw"></i> Filter</button>
+        </form>
         <div class="table-responsive mt-3">
             <table id="data_pkb_hitamTable" class="table table-sm table-bordered table-hover" width="100%"
                 cellspacing="0">
@@ -72,8 +84,12 @@
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: '{!! route('data_pkb_hitam.index') !!}',
-        pageLength: 100,
+        ajax: { 
+            url: '{!! route('data_pkb_hitam.index') !!}',
+            data: function (d) {
+                d.status_kendaraan = $('select[name=status_kendaraan]').val();
+            }
+        },
         columns: [
             { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
@@ -90,6 +106,10 @@
             { data: 'tgl_akhir_pkb', name: 'tgl_akhir_pkb' },
             { data: 'tgl_akhir_stnk', name: 'tgl_akhir_stnk' },
         ],
+    });
+    $('#search-form').on('submit', function(e) {
+        tableDokumen.draw();
+        e.preventDefault();
     });
 </script>
 @endpush
