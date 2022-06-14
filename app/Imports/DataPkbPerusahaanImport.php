@@ -10,7 +10,7 @@ class DataPkbPerusahaanImport implements ToModel, WithStartRow
 {
     public function startRow(): int
     {
-        return 2;
+        return 3;
     }
 
     /**
