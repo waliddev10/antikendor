@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'nama' => 'Muhammad Fadjri',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('@dmin'),
-            'nip' => '200008062022011001',
+            'nip' => '200001102022011003',
             'jabatan' => 'Pengelola Layanan Operasional',
             'email_verified_at' => Carbon::now()->format('Y-m-d'),
             'role' => 'admin',
